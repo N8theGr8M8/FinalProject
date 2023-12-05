@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>List Of Saved Events:</h1>
+<ul>
+{% for event in events %}
+	<li>{{ event.name }}</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>

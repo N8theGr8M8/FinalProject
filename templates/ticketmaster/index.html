@@ -1,0 +1,67 @@
+{% extends 'ticketmaster/base.html' %}
+
+
+{% block body %}
+    <div class="bg-primary text-center text-white pb-3 container-fluid">
+        <div class="py-4">
+            <h1 class="display-3">Ticketmaster</h1>
+            <h2 class="fw-bold">Quickly find tickets around you</h2>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+
+                    <form action="{% url 'ticketmaster-base' %}" method="post" >
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search by genre, artist or event" name="searchTerm">
+                            <input type="text" class="form-control" placeholder="Enter a city e.g., Hartford" name="place">
+                            <button type="submit" class="btn btn-danger border-0 text-white rounded-end">SEARCH</button>
+                        </div>
+
+                    </form>
+                    <form action="{% url 'ticketmaster-list' %}" method="post" >
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Save event" name="savedEvent">
+                            <button type="submit" class="btn btn-danger border-0 text-white rounded-end">SAVE</button>
+                        </div>
+                    </form>
+                    <a href="{% url 'ticketmaster-list' %}" class="text-white">open list</a>
+
+                    <div id="alert">
+                        {% for message in messages %}
+                            <div class="alert alert-danger" role="alert">
+                                <h4>{{ message }}</h4>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="box" class="container-fluid">
+        {% for event in events %}
+            <div class="card m-2">
+                <div class="row g-0">
+                    <div class="col-lg-4 d-flex align-items-center ps-md-1">
+                        <img src="{{event.image}}" class="img-fluid card-img"  alt="pic">
+                    </div>
+                    <div class="col-lg-4 col-6 px-3">
+                        <h4 class="my-4">{{event.name}}</h4>
+                        <h4 class="text-secondary">{{event.venue}}</h4>
+                        <p class="text-secondary my-0">{{event.address}}</p>
+                        <p class="text-secondary my-0">{{event.city}} {{event.state}}</p>
+                        <a class="btn btn-primary border-0 text-white rounded my-3" href="{{event.link}}">Find tickets</a>
+                    </div>
+                    <div class="col-lg-4 col-6 text-end pe-3">
+                        <h4 class="mt-2 mb-0  text-success">{{event.date}}</h4>
+                        <h6 class="mt-1 text-success">{{event.time}}</h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
