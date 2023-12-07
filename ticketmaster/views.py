@@ -1,21 +1,19 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .forms import FavoriteForm
 from .models import EventData
 import requests
 from datetime import datetime
 from django.contrib import messages
 
-
-# Create your views here.
-
-
+@login_required(login_url='/accounts/login/')
 def index(request):
     if request.method == 'POST':
         classification = request.POST['searchTerm']
         city = request.POST['place']
         print(classification)
         print(city)
-
-
 
         if not classification or not city:
             messages.info(request, 'Both city and classification are required fields.')
@@ -55,10 +53,11 @@ def index(request):
                         best_image = image['url']
                         most_pixels = image['height'] * image['width']
 
-                # date_time = event['dates']['start']['dateTime']
-                start_date = event['dates']['start']['localDate']
-                if event['dates']['start']['noSpecificTime'] == False:
-                    start_time = event['dates']['start']['localTime']
+                date_time = datetime.strptime(event['dates']['start']['dateTime'], "%Y-%m-%dT%H:%M:%SZ")
+                start_date = date_time.strftime("%a %b %d %Y")
+
+                if not event['dates']['start']['noSpecificTime']:
+                    start_time = date_time.strftime("%I:%M %p")
                 else:
                     start_time = "No Specific Time"
                 venue_name = event['_embedded']['venues'][0]['name']
@@ -113,13 +112,40 @@ def get_results(city, classification):
         return None
 
 
-def lister(request):
-    if request.method == 'POST':
-        savedEvent = request.POST['savedEvent']
-        print(savedEvent)
-        EventData.objects.create(name=savedEvent)
-        return redirect('ticketmaster-base')
-    else:
-        events = EventData.objects.all()
-        context = {'events' : events}
-        return render(request, 'ticketmaster/list.html', context)
+@login_required(login_url='/accounts/login/')
+def view_favorites(request):
+    events = EventData.objects.filter(user=request.user)
+    context = {'events': events}
+    return render(request, 'ticketmaster/list.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def create_favorite(request):
+    form = FavoriteForm(request.POST or None)
+    if form.is_valid():
+        form.instance.user = request.user
+        form.save()
+        return redirect('view_favorites')
+    form = FavoriteForm({'name': request.POST['saved_name'], 'link': request.POST['saved_link'], 'image': request.POST[
+        "saved_image"], 'date': request.POST['saved_date']})
+    context = {"form": form}
+    return render(request, 'ticketmaster/favorite-form.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def update_favorite(request, id):
+    favorite = EventData.objects.get(id=id)
+    form = FavoriteForm(request.POST or None, instance=favorite)
+    if form.is_valid():
+        # update the record in the db
+        form.save()
+        # after updating redirect to view_product page
+        return redirect('view_favorites')
+    return render(request, 'ticketmaster/favorite-form.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def delete_favorite(request, id):
+    favorite = EventData.objects.get(id=id)
+    favorite.delete()
+    return redirect('view_favorites')

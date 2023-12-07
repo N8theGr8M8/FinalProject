@@ -1,6 +1,8 @@
 from django import forms
 from .models import EventData
-class ProductForm(forms.ModelForm):
+
+
+class FavoriteForm(forms.ModelForm):
     class Meta:
         model = EventData
-        fields = '__all__'
+        exclude = ['user']

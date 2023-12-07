@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+
+import accounts
 from . import views
 urlpatterns = [
-    path('ticketmaster/', views.index, name="ticketmaster-base"),
-    path('eventlist/', views.lister, name="ticketmaster-list"),
-    #path('ticketmaster/', views.index, name="ticketmaster-index")
+    path('', views.index, name="ticketmaster-base"),
+    path('favorites/', views.view_favorites, name="view_favorites"),
+    path('add', views.create_favorite, name='create_favorite'),
+    path('update/<int:id>', views.update_favorite, name='update_favorite'),
+    path('delete/<int:id>', views.delete_favorite, name='delete_favorite'),
 ]

@@ -1,4 +1,4 @@
-{% extends 'ticketmaster/base.html' %}
+{% extends 'ticketmaster/../ticketmaster/base.html' %}
 
 
 {% block body %}
@@ -20,15 +20,6 @@
                         </div>
 
                     </form>
-                    <form action="{% url 'ticketmaster-list' %}" method="post" >
-                        {% csrf_token %}
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Save event" name="savedEvent">
-                            <button type="submit" class="btn btn-danger border-0 text-white rounded-end">SAVE</button>
-                        </div>
-                    </form>
-                    <a href="{% url 'ticketmaster-list' %}" class="text-white">open list</a>
-
                     <div id="alert">
                         {% for message in messages %}
                             <div class="alert alert-danger" role="alert">
@@ -37,6 +28,8 @@
                         {% endfor %}
 
                     </div>
+                    <a href="{% url 'view_favorites' %}" class="text-white">View Favorites</a>
+                    <a href="../accounts/logout" class="text-white align-end">Logout</a>
                 </div>
             </div>
         </div>
@@ -58,6 +51,16 @@
                     <div class="col-lg-4 col-6 text-end pe-3">
                         <h4 class="mt-2 mb-0  text-success">{{event.date}}</h4>
                         <h6 class="mt-1 text-success">{{event.time}}</h6>
+                        <form action="{% url 'create_favorite' %}" method="post" >
+                        {% csrf_token %}
+                        <div class="justify-content-end input-group">
+                            <input type="hidden" name="saved_name" value="{{event.name}}">
+                            <input type="hidden" name="saved_link" value="{{event.link}}">
+                            <input type="hidden" name="saved_image" value="{{event.image}}">
+                            <input type="hidden" name="saved_date" value="{{event.date}}">
+                            <button type="submit" class="btn btn-sm btn-warning text-white rounded-end">SAVE</button>
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>
