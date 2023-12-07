@@ -7,6 +7,7 @@ import requests
 from datetime import datetime
 from django.contrib import messages
 
+
 @login_required(login_url='/accounts/login/')
 def index(request):
     if request.method == 'POST':
@@ -53,16 +54,20 @@ def index(request):
                         best_image = image['url']
                         most_pixels = image['height'] * image['width']
 
-                if event['dates']['start']['dateTime']:
+                try:
                     date_time = datetime.strptime(event['dates']['start']['dateTime'], "%Y-%m-%dT%H:%M:%SZ")
                     start_date = date_time.strftime("%a %b %d %Y")
                     start_time = date_time.strftime("%I:%M %p")
-                else:
-                    if not event['dates']['start']['noSpecificTime']:
+                except KeyError:
+                    try:
                         start_time = event['dates']['start']['localTime']
-                    else:
+                    except KeyError:
                         start_time = "No specific time"
-                    start_date = event['dates']['start']['localDate']
+                    try:
+                        start_date = event['dates']['start']['localDate']
+                    except KeyError:
+                        start_date = "No specific date"
+
                 venue_name = event['_embedded']['venues'][0]['name']
                 venue_address = event['_embedded']['venues'][0]['address']['line1']
                 venue_city = event['_embedded']['venues'][0]['city']['name']
