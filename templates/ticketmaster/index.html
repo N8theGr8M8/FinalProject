@@ -22,14 +22,22 @@
                     </form>
                     <div id="alert">
                         {% for message in messages %}
-                            <div class="alert alert-danger" role="alert">
+                            <div class="alert alert-danger m-2" role="alert">
                                 <h4>{{ message }}</h4>
                             </div>
                         {% endfor %}
-
                     </div>
-                    <a href="{% url 'view_favorites' %}" class="text-white">View Favorites</a>
-                    <a href="../accounts/logout" class="text-white align-end">Logout</a>
+
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="col-2">
+                        <a href="{% url 'view_favorites' %}" class="text-white">View Favorites</a>
+                    </div>
+                    <div class="col-5 text-end">
+                        <a href="../accounts/logout" class="btn btn-light align-end rounded-0 border-dark border-2">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,15 +60,15 @@
                         <h4 class="mt-2 mb-0  text-success">{{event.date}}</h4>
                         <h6 class="mt-1 text-success">{{event.time}}</h6>
                         <form action="{% url 'create_favorite' %}" method="post" >
-                        {% csrf_token %}
-                        <div class="justify-content-end input-group">
-                            <input type="hidden" name="saved_name" value="{{event.name}}">
-                            <input type="hidden" name="saved_link" value="{{event.link}}">
-                            <input type="hidden" name="saved_image" value="{{event.image}}">
-                            <input type="hidden" name="saved_date" value="{{event.date}}">
-                            <button type="submit" class="btn btn-sm btn-warning text-white rounded-end">SAVE</button>
-                        </div>
-                    </form>
+                            {% csrf_token %}
+                            <div class="justify-content-end input-group">
+                                <input type="hidden" name="saved_name" value="{{event.name}}">
+                                <input type="hidden" name="saved_link" value="{{event.link}}">
+                                <input type="hidden" name="saved_image" value="{{event.image}}">
+                                <input type="hidden" name="saved_date" value="{{event.date}}">
+                                <button type="submit" class="btn btn-sm btn-warning text-white rounded">SAVE</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

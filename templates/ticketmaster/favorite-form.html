@@ -1,10 +1,17 @@
 {% extends 'ticketmaster/../ticketmaster/base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
- <h1>Product form</h1>
- <form method="post">
- {% csrf_token %}
- {{ form|crispy }}
- <input type="submit" value="Save">
- </form>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="fw-bold my-4">Product form:</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Save">
+                </form>
+                <p class="my-2 text-danger">*Required Field</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

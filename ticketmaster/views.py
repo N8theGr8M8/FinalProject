@@ -53,7 +53,8 @@ def index(request):
                     if image['height'] * image['width'] > most_pixels:
                         best_image = image['url']
                         most_pixels = image['height'] * image['width']
-
+                if not 'dateTime' in event['dates']['start']:
+                    start_time = "No specific time"
                 try:
                     date_time = datetime.strptime(event['dates']['start']['dateTime'], "%Y-%m-%dT%H:%M:%SZ")
                     start_date = date_time.strftime("%a %b %d %Y")
