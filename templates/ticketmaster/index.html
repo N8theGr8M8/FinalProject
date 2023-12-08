@@ -27,7 +27,6 @@
                             </div>
                         {% endfor %}
                     </div>
-
                 </div>
             </div>
             <div class="container-fluid">
@@ -43,36 +42,43 @@
         </div>
     </div>
     <div id="box" class="container-fluid">
-        {% for event in events %}
-            <div class="card m-2">
-                <div class="row g-0">
-                    <div class="col-lg-4 d-flex align-items-center ps-md-1">
-                        <img src="{{event.image}}" class="img-fluid card-img"  alt="pic">
-                    </div>
-                    <div class="col-lg-4 col-6 px-3">
-                        <h4 class="my-4">{{event.name}}</h4>
-                        <h4 class="text-secondary">{{event.venue}}</h4>
-                        <p class="text-secondary my-0">{{event.address}}</p>
-                        <p class="text-secondary my-0">{{event.city}} {{event.state}}</p>
-                        <a class="btn btn-primary border-0 text-white rounded my-3" href="{{event.link}}">Find tickets</a>
-                    </div>
-                    <div class="col-lg-4 col-6 text-end pe-3">
-                        <h4 class="mt-2 mb-0  text-success">{{event.date}}</h4>
-                        <h6 class="mt-1 text-success">{{event.time}}</h6>
-                        <form action="{% url 'create_favorite' %}" method="post" >
-                            {% csrf_token %}
-                            <div class="justify-content-end input-group">
-                                <input type="hidden" name="saved_name" value="{{event.name}}">
-                                <input type="hidden" name="saved_link" value="{{event.link}}">
-                                <input type="hidden" name="saved_image" value="{{event.image}}">
-                                <input type="hidden" name="saved_date" value="{{event.date}}">
-                                <button type="submit" class="btn btn-sm btn-warning text-white rounded">SAVE</button>
+        {% if events %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bg-white shadow p-1 my-3 ">
+                        {% for event in events %}
+                            <div class="card m-2">
+                                <div class="row g-0">
+                                    <div class="col-lg-4 d-flex align-items-center ps-md-1">
+                                        <img src="{{event.image}}" class="img-fluid card-img"  alt="pic">
+                                    </div>
+                                    <div class="col-lg-4 col-6 px-3">
+                                        <h4 class="my-4">{{event.name}}</h4>
+                                        <h4 class="text-secondary">{{event.venue}}</h4>
+                                        <p class="text-secondary my-0">{{event.address}}</p>
+                                        <p class="text-secondary my-0">{{event.city}} {{event.state}}</p>
+                                        <a class="btn btn-primary border-0 text-white rounded my-3" href="{{event.link}}">Find tickets</a>
+                                    </div>
+                                    <div class="col-lg-4 col-6 text-end pe-3">
+                                        <h4 class="mt-2 mb-0  text-success">{{event.date}}</h4>
+                                        <h6 class="mt-1 text-success">{{event.time}}</h6>
+                                        <form action="{% url 'create_favorite' %}" method="post" >
+                                            {% csrf_token %}
+                                            <div class="justify-content-end input-group">
+                                                <input type="hidden" name="saved_name" value="{{event.name}}">
+                                                <input type="hidden" name="saved_link" value="{{event.link}}">
+                                                <input type="hidden" name="saved_image" value="{{event.image}}">
+                                                <input type="hidden" name="saved_date" value="{{event.date}}">
+                                                <button type="submit" class="btn btn-sm btn-warning text-white rounded">SAVE</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-        {% endfor %}
-
+        {% endif %}
     </div>
 {% endblock %}
