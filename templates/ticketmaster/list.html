@@ -33,10 +33,10 @@
                         <tr>
                             <td>{{ event.name }}</td>
                             <td>
-                                <img style="width: 150px" class="img-fluid img-thumbnail" src="{{ event.image }}" alt="No image">
+                                <img style="min-width:150px; width: 300px" class="img-fluid img-thumbnail" src="{{ event.image }}" alt="No image">
                             </td>
-                            <td>{{ event.date }}</td>
-                            <td>{{ event.notes }}</td>
+                            <td class = text-nowrap>{{ event.date }}</td>
+                            <td class = text-nowrap>{{ event.notes }}</td>
                             <td>
                                 <a href="{{ event.link }}" class="btn btn-primary">Buy Tickets</a></td>
                             <td>
