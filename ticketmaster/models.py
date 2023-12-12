@@ -10,8 +10,4 @@ class EventData(models.Model):
     image = models.CharField(max_length=255)
     link = models.CharField(max_length=255)
     date = models.CharField(max_length=255)
-    # startTime = models.DateTimeField
-    # venueName = models.CharField(max_length=55)
-    # venueAddress = models.CharField(max_length=55)
-    # venueCity = models.CharField(max_length=55)
-    # venueState = models.CharField(max_length=55)
+
