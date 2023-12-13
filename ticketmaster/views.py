@@ -33,7 +33,7 @@ def index(request):
 
         else:
             # print the response for testing purpose (open "Run" at the bottom to see what is printed)
-            print(results)
+            #print(results)
             # Store each user's information in a variable
             events = results['_embedded']['events']
 
